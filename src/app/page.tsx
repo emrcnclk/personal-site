@@ -1,103 +1,142 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Hero } from "@/components/home/hero";
+import { Container } from "@/components/ui/container";
+import { Section } from "@/components/ui/section";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Kicker } from "@/components/ui/kicker";
+import { NoirLink } from "@/components/ui/noir-link";
+import { ProjectRow } from "@/components/cards/project-row";
+import { Reveal } from "@/components/motion/reveal";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { Parallax } from "@/components/motion/parallax";
+import { nowUpdated } from "@/data/now";
+import { getFeaturedProjects } from "@/lib/github";
+import { getHomeUi, getMotto, getNowItems } from "@/lib/i18n";
+import { resolvePageLang } from "@/lib/i18n-server";
+import { formatDate } from "@/lib/utils";
 
-export default function Home() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ lang?: string }> | { lang?: string };
+}) {
+  const lang = await resolvePageLang(searchParams);
+  const ui = getHomeUi(lang);
+  const motto = getMotto(lang);
+  const nowItems = getNowItems(lang);
+  const featured = await getFeaturedProjects();
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <Hero lang={lang} />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      <Section>
+        <Container>
+          <div className="grid gap-10 md:grid-cols-[8rem_1fr]">
+            <Reveal distance={10}>
+              <Kicker>{ui.ethosKicker}</Kicker>
+            </Reveal>
+            <div>
+              <TextReveal
+                as="p"
+                text={ui.ethosHeadline}
+                className="display max-w-3xl text-3xl leading-tight md:text-5xl"
+              />
+              <Reveal delay={0.4} className="mt-10 max-w-xl">
+                <p className="leading-relaxed text-muted">{motto}</p>
+                <p className="mt-5 leading-relaxed text-muted">{ui.ethosBody}</p>
+              </Reveal>
+              <Reveal delay={0.55} className="mt-8">
+                <NoirLink href="/about">{ui.fullStory}</NoirLink>
+              </Reveal>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section compact>
+        <Container>
+          <SectionHeading
+            kicker={ui.hangarKicker}
+            title={ui.hangarTitle}
+            action={{ label: ui.allProjects, href: "/projects" }}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <ul className="border-b border-line">
+            {featured.map((project, i) => (
+              <ProjectRow key={project.slug} project={project} index={i} lang={lang} />
+            ))}
+          </ul>
+          <Reveal delay={0.2} className="mt-8">
+            <NoirLink href="/projects">{ui.openHangar}</NoirLink>
+          </Reveal>
+        </Container>
+      </Section>
+
+      <Section>
+        <Container>
+          <SectionHeading kicker={ui.universeKicker} title={ui.universeTitle} />
+          <div className="relative z-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            {ui.universe.map((item, i) => (
+              <Reveal key={item.href} delay={Math.min(i * 0.07, 0.35)} className="bg-night">
+                <Link
+                  href={item.href}
+                  className="group relative z-10 flex h-full flex-col justify-between gap-16 p-8 transition-colors duration-500 hover:bg-panel md:p-10"
+                >
+                  <span className="font-mono text-xs text-faint">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>
+                    <span className="display block text-3xl transition-colors duration-300 group-hover:text-amber">
+                      {item.label}
+                    </span>
+                    <span className="mt-2 block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-faint">
+                      {item.note}
+                    </span>
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      <Section>
+        <Container>
+          <Parallax offset={24}>
+            <div className="relative z-10 overflow-hidden border border-line bg-panel/50 p-8 md:p-14">
+              <div className="relative mb-10 flex flex-wrap items-center justify-between gap-4">
+                <Kicker signal>
+                  {ui.currentlyPrefix} {formatDate(nowUpdated, lang)}
+                </Kicker>
+                <NoirLink href="/now">{ui.nowPage}</NoirLink>
+              </div>
+              <dl className="relative grid gap-x-12 gap-y-8 md:grid-cols-2">
+                {nowItems.slice(0, 4).map((item, i) => {
+                  const body = (
+                    <>
+                      <dt className="font-mono text-xs uppercase tracking-[0.2em] text-faint transition-colors group-hover:text-amber">
+                        {item.label}
+                      </dt>
+                      <dd className="mt-2 leading-relaxed text-muted">{item.detail}</dd>
+                    </>
+                  );
+                  return (
+                    <Reveal key={item.label} delay={Math.min(i * 0.08, 0.3)}>
+                      {item.href ? (
+                        <Link href={item.href} className="group block">
+                          {body}
+                        </Link>
+                      ) : (
+                        <div>{body}</div>
+                      )}
+                    </Reveal>
+                  );
+                })}
+              </dl>
+            </div>
+          </Parallax>
+        </Container>
+      </Section>
+    </>
   );
 }

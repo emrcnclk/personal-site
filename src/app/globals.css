@@ -1,26 +1,289 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+/* ------------------------------------------------------------------ */
+/*  Design tokens — the single source of truth for the visual system  */
+/*  Atmosphere: late-90s neo-noir, space western, Tokyo rain, jazz.   */
+/* ------------------------------------------------------------------ */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces — deep void with a bruised midnight undertone */
+  --night: #05060a;
+  --panel: #0a0c12;
+  --elevated: #11141c;
+  --line: rgba(236, 220, 190, 0.09);
+  --line-strong: rgba(236, 220, 190, 0.18);
+
+  /* Ink — warm paper, cigarette-pack cream */
+  --text: #ece0be;
+  --muted: #a89880;
+  --faint: #6e6354;
+
+  /* Signals — jazz club neon */
+  --amber: #e88c46; /* saxophone amber */
+  --cyan: #5abec8; /* rain-sign cyan */
+  --signal: #c4574e; /* recording light */
+
+  --radius: 2px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-night: var(--night);
+  --color-panel: var(--panel);
+  --color-elevated: var(--elevated);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-foreground: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+
+  --color-amber: var(--amber);
+  --color-cyan: var(--cyan);
+  --color-signal: var(--signal);
+
+  --font-display: "Fraunces Variable", "Georgia", serif;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "SFMono-Regular", monospace;
+
+  /* Type scale — editorial, generous */
+  --text-kicker: 0.6875rem;
+  --text-kicker--line-height: 1.2;
+  --text-kicker--letter-spacing: 0.22em;
+
+  /* Spacing rhythm for sections */
+  --spacing-section: 8rem;
+  --spacing-section-sm: 5rem;
+
+  --ease-cinema: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-flicker: flicker 4s linear infinite;
+  --animate-drift: drift 24s ease-in-out infinite alternate;
+  --animate-scan: scan 9s linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  3% { opacity: 0.72; }
+  6% { opacity: 1; }
+  54% { opacity: 1; }
+  56% { opacity: 0.85; }
+  58% { opacity: 1; }
+}
+
+@keyframes drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1.04); }
+  to { transform: translate3d(1.5%, 1%, 0) scale(1.04); }
+}
+
+@keyframes scan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100vh); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Soft CRT vignette — keeps the frame cinematic */
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* Slow scan line — barely there, like a tired CRT */
+body::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 66;
+  height: 18%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(232, 140, 70, 0.03),
+    transparent
+  );
+  animation: scan 9s linear infinite;
+  opacity: 0.7;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--amber) 85%, transparent);
+  color: var(--night);
+}
+
+/* Thin noir scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--elevated) transparent;
+}
+
+:focus-visible {
+  outline: 1px solid var(--amber);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reusable utilities                                                 */
+/* ------------------------------------------------------------------ */
+
+@utility kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-kicker);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144;
+  font-weight: 380;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+@utility prose-noir {
+  & p {
+    color: var(--muted);
+    line-height: 1.85;
+    margin-bottom: 1.5em;
+  }
+  & p:first-of-type {
+    color: var(--text);
+  }
+  & h2 {
+    font-family: var(--font-display);
+    font-weight: 420;
+    font-size: 1.75rem;
+    letter-spacing: -0.01em;
+    margin: 2.5em 0 1em;
+  }
+  & h3 {
+    font-family: var(--font-display);
+    font-weight: 460;
+    font-size: 1.25rem;
+    margin: 2em 0 0.8em;
+  }
+  & a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--amber) 55%, transparent);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.3s;
+  }
+  & a:hover {
+    text-decoration-color: var(--amber);
+  }
+  & blockquote {
+    border-left: 1px solid var(--amber);
+    padding-left: 1.5rem;
+    margin: 2em 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--text);
+  }
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--elevated);
+    border: 1px solid var(--line);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+  & pre {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    margin: 2em 0;
+    border-radius: 4px;
+  }
+  & pre code {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  & ul, & ol {
+    color: var(--muted);
+    line-height: 1.85;
+    margin: 0 0 1.5em 1.25em;
+  }
+  & ul { list-style: "—  "; }
+  & ol { list-style: decimal; }
+  & li { padding-left: 0.5em; margin-bottom: 0.4em; }
+  & hr {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 3em 0;
+  }
+  & strong { color: var(--text); font-weight: 500; }
+}
+
+/* Hairline rule that draws itself on reveal */
+@utility rule-draw {
+  position: relative;
+  height: 1px;
+  background: var(--line);
+}
+
+/* Spike cursor pack — sized down for the UI (Sweezy Cursors) */
+html[data-spike-cursor="true"],
+html[data-spike-cursor="true"] * {
+  cursor: url("/cursors/spike-cursor-40.png") 0 0, auto;
+}
+
+html[data-spike-cursor="true"] a,
+html[data-spike-cursor="true"] button,
+html[data-spike-cursor="true"] [role="button"],
+html[data-spike-cursor="true"] summary,
+html[data-spike-cursor="true"] label[for],
+html[data-spike-cursor="true"] select,
+html[data-spike-cursor="true"] input[type="submit"],
+html[data-spike-cursor="true"] input[type="button"],
+html[data-spike-cursor="true"] input[type="checkbox"],
+html[data-spike-cursor="true"] input[type="radio"] {
+  cursor: url("/cursors/spike-pointer-40.png") 20 20, pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body::after {
+    animation: none;
+    opacity: 0;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
