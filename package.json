@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "build:local": "cross-env NEXT_DIST_DIR=.next-build next build",
     "start": "next start",
-    "start:local": "cross-env NEXT_DIST_DIR=.next-build next start",
     "lint": "eslint"
   },
   "dependencies": {

@@ -2,8 +2,6 @@ import type { NextConfig } from "next";
 import { site } from "./src/config/site";
 
 const nextConfig: NextConfig = {
-  // Default .next for Vercel. Local parallel builds can set NEXT_DIST_DIR=.next-build.
-  distDir: process.env.NEXT_DIST_DIR || ".next",
   async redirects() {
     return [
       {
