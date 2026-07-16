@@ -46,8 +46,8 @@ export default function OpenGraphImage() {
             }}
           >
             <span>Game theory.</span>
-            <span>Machine minds.</span>
-            <span style={{ color: "#e88c46" }}>Play the system.</span>
+            <span>Mind like a machine.</span>
+            <span style={{ color: "#e88c46" }}>Play with the system.</span>
           </div>
           <div style={{ fontSize: 22, color: "#a89880", letterSpacing: 2, maxWidth: 900 }}>
             {site.motto}

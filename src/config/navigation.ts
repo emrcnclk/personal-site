@@ -24,7 +24,7 @@ export const navigation: NavGroup[] = [
     title: "Work",
     items: [
       { label: "Projects", href: "/projects", note: "from the hangar" },
-      { label: "AI", href: "/ai", note: "machine minds" },
+      { label: "AI", href: "/ai", note: "mind like a machine" },
       { label: "Game Development", href: "/game-development", note: "unity" },
       { label: "Mobile Apps", href: "/mobile", note: "pocket software" },
       { label: "Playground", href: "/playground", note: "toys" },

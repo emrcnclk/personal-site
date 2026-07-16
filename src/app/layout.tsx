@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "@fontsource-variable/fraunces";
@@ -63,6 +65,8 @@ export default async function RootLayout({
         <SiteFooter />
         <FilmGrain />
         <CustomCursor />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

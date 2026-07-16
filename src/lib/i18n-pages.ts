@@ -321,7 +321,7 @@ export const pagesUi = {
   },
   ai: {
     en: {
-      kicker: "Sec. 03 — Machine minds",
+      kicker: "Sec. 03 — Mind like a machine",
       title: "Small models, sharp tools.",
       lede: "I build AI systems the way I build everything else: scoped tight, tuned by hand, and answerable to the person using them. Local-first when possible, honest about limits always.",
       principles: [
@@ -340,7 +340,7 @@ export const pagesUi = {
       ],
     },
     tr: {
-      kicker: "Böl. 03 — Makine zihinleri",
+      kicker: "Böl. 03 — Makine gibi zihin",
       title: "Küçük modeller, keskin araçlar.",
       lede: "Yapay zekâ sistemlerini her şeyi kurduğum gibi kuruyorum: dar kapsam, elle ayar, kullanan kişiye hesap verebilir. Mümkünse önce yerelde, sınırlar konusunda her zaman dürüst.",
       principles: [

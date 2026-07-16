@@ -46,7 +46,8 @@ const navItemNoteTrMap: Record<string, string> = {
   "this season": "bu sezon",
   "open channel": "kanal aç",
   "from the hangar": "hangardan",
-  "machine minds": "makine zihinleri",
+  "mind like a machine": "makine gibi zihin",
+  "machine minds": "makine gibi zihin",
   unity: "unity",
   "pocket software": "cep yazılımı",
   toys: "oyuncaklar",
@@ -116,13 +117,13 @@ export const heroUi = {
   en: {
     session: "Session 01",
     live: "live · no overdubs",
-    headline: ["Game theory.", "Machine minds.", "Play the system."],
+    headline: ["Game theory.", "Mind like a machine.", "Play with the system."],
     drop: "Drop the needle",
   },
   tr: {
     session: "Seans 01",
     live: "canlı · overdub yok",
-    headline: ["Oyun teorisi.", "Makine zihinleri.", "Sistemi oyna."],
+    headline: ["Oyun teorisi.", "Makine gibi zihin.", "Sistemle oyna."],
     drop: "İğneyi bırak",
   },
 } as const;
