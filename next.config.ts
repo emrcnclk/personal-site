@@ -2,8 +2,7 @@ import type { NextConfig } from "next";
 import { site } from "./src/config/site";
 
 const nextConfig: NextConfig = {
-  // Dev uses .next, production builds use .next-build — they can never
-  // corrupt each other's manifests when run at the same time.
+  // Default .next for Vercel. Local parallel builds can set NEXT_DIST_DIR=.next-build.
   distDir: process.env.NEXT_DIST_DIR || ".next",
   async redirects() {
     return [
