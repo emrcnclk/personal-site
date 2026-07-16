@@ -18,7 +18,7 @@ import { formatDate } from "@/lib/utils";
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams?: Promise<{ lang?: string }> | { lang?: string };
+  searchParams?: Promise<{ lang?: string | string[] }>;
 }) {
   const lang = await resolvePageLang(searchParams);
   const ui = getHomeUi(lang);

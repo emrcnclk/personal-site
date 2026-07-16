@@ -25,7 +25,7 @@ const tones: Record<PhotoSet["tone"], string> = {
 export default async function PhotographyPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ lang?: string }> | { lang?: string };
+  searchParams?: Promise<{ lang?: string | string[] }>;
 }) {
   const lang = await resolvePageLang(searchParams);
   const ui = getPageUi("photography", lang);

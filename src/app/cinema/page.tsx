@@ -28,7 +28,7 @@ function ratingLabel(rating: string | null, unrated: string) {
 export default async function CinemaPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ lang?: string }> | { lang?: string };
+  searchParams?: Promise<{ lang?: string | string[] }>;
 }) {
   const lang = await resolvePageLang(searchParams);
   const ui = getCinemaUi(lang);

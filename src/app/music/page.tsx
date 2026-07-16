@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
 export default async function MusicPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ lang?: string }> | { lang?: string };
+  searchParams?: Promise<{ lang?: string | string[] }>;
 }) {
   const lang = await resolvePageLang(searchParams);
   const ui = getPageUi("music", lang);

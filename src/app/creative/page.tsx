@@ -16,7 +16,7 @@ export const metadata = pageMetadata({
 export default async function CreativePage({
   searchParams,
 }: {
-  searchParams?: Promise<{ lang?: string }> | { lang?: string };
+  searchParams?: Promise<{ lang?: string | string[] }>;
 }) {
   const lang = await resolvePageLang(searchParams);
   const ui = getPageUi("creative", lang);

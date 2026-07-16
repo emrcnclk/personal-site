@@ -15,16 +15,12 @@ export async function getServerLang(
   }
 }
 
-type LangSearch =
-  | Promise<{ lang?: string }>
-  | { lang?: string }
-  | undefined;
+export type PageSearchParams = Promise<{ lang?: string | string[] }>;
 
-/** Resolve lang from Next.js page searchParams (Promise or plain). */
-export async function resolvePageLang(searchParams?: LangSearch): Promise<Lang> {
-  const resolved =
-    searchParams && typeof (searchParams as Promise<unknown>).then === "function"
-      ? await (searchParams as Promise<{ lang?: string }>)
-      : ((searchParams as { lang?: string } | undefined) ?? {});
+/** Resolve lang from Next.js 15 page searchParams Promise. */
+export async function resolvePageLang(
+  searchParams?: PageSearchParams,
+): Promise<Lang> {
+  const resolved = searchParams ? await searchParams : {};
   return getServerLang(resolved.lang);
 }
